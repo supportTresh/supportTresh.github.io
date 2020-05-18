@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tagcloud | Hexo</title>
+  <title>Tagcloud | Tresh&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Tagcloud">
 <meta property="og:url" content="http://yoursite.com/tags/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Tresh&#39;s blog">
+<meta property="og:locale" content="zh">
 <meta property="article:published_time" content="2020-05-18T05:48:47.000Z">
 <meta property="article:modified_time" content="2020-05-18T05:51:56.401Z">
 <meta property="article:author" content="Tresh">
 <meta name="twitter:card" content="summary">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Tresh&#39;s blog" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -92,6 +92,51 @@
 	</header>		
 </div>
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+	<div id="aplayer"></div>
+	<div id="aplayer" style="z-index: 99999;"></div>
+	<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/color-thief-don@2.0.2/src/color-thief.js"></script>
+	<script>
+	  const ap = new APlayer({
+		container: document.getElementById('aplayer'),
+		autoplay: false, //自动播放
+		listFolded: true, //播放列表默认折叠
+		listMaxHeight: 90, //播放列表最大高度
+		order: 'list', //音频循环顺序, 可选值: 'list', 'random'
+		loop: 'all', //音频循环播放, 可选值: 'all', 'one', 'none'
+		theme: '#e9e9e9', //切换音频时的主题色，优先级低于audio.theme
+		preload: 'none', //音频预加载，可选值: 'none', 'metadata', 'auto'
+		mutex: true, //互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器
+		lrcType: 3, //歌词格式，可选值：3（LRC文件歌词格式），1（JS字符串歌词格式）
+		volume: 0.7, //默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效
+		fixed: false, //吸底模式（fixed:true），迷你模式（mini:true），普通模式（注释此行或者设置fixed:false）
+		audio: [
+		  {
+			name: '鸽子',
+			artist: '宋冬野',
+			lrc: '',
+			cover: 'https://pic.xiami.net/images/album/img66/86366/4534811423729531.jpg?x-oss-process=image/quality,q_80/format,jpg',
+			url: 'http://ws.stream.qqmusic.qq.com/C400004Qly0E0iP0il.m4a?guid=214688790&vkey=5A6DA582761D040F06B7AACEC0727CD2027D959F19882C3A7B789D28063A163ADD257B0783990638C9E8D858947DBD7E82BCDFED54EC81BB&uin=0&fromtag=66'
+		  }
+		]
+	  });
+	
+	  //实现切换音频时，根据音频的封面图片自适应主题色
+	  const colorThief = new ColorThief();
+	  const setTheme = (index) => {
+		if (!ap.list.audios[index].theme) {
+		  colorThief.getColorAsync(ap.list.audios[index].cover, function(color) {
+			ap.theme(`rgb(${color[0]}, ${color[1]}, ${color[2]})`, index);
+		  });
+		}
+	  };
+	  setTheme(ap.list.index);
+	  ap.on('listswitch', (data) => {
+		setTheme(data.index);
+	  });
+	</script>
+	
     </div>
     <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
       
